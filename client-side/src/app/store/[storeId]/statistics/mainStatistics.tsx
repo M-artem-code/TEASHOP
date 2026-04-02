@@ -17,7 +17,7 @@ export function MainStatistics() {
 				))
 			) : (
 				<div>
-					<h1>No statistics</h1>
+					<h1>No statistics available!</h1>
 				</div>
 			)}
 		</div>
