@@ -5,7 +5,7 @@ import { IStore } from "./store.inteface"
 
 export interface IProduct {
 	id: string
-	name: string
+	title: string
 	description: string
 	price: number
 	images: string[]
