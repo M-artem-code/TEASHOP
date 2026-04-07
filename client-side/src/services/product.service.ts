@@ -4,7 +4,7 @@ import { API_URL } from '@/app/config/api.config'
 import { IProduct, IProductInput } from '@/app/shared/types/product.interface'
 
 class ProductService {
-	async gettAll(searchParams?: string | null) {
+	async getAll(searchParams?: string | null) {
 		const { data } = await axiosClassic<IProduct[]>({
 			url: API_URL.products(),
 			method: 'GET',
@@ -15,7 +15,7 @@ class ProductService {
 	}
 
 	async getByStoreId(storeId: string) {
-		const { data } = await axiosWithAuth<IProduct>({
+		const { data } = await axiosWithAuth<IProduct[]>({
 			url: API_URL.products(`/by-storeId/${storeId}`),
 			method: 'GET'
 		})
@@ -42,7 +42,7 @@ class ProductService {
 	}
 
 	async getMostPopular() {
-		const { data } = await axiosClassic<IProduct>({
+		const { data } = await axiosClassic<IProduct[]>({
 			url: API_URL.products(`/most-popular`),
 			method: 'GET'
 		})
@@ -51,7 +51,7 @@ class ProductService {
 	}
 
 	async getSimilar(id: string) {
-		const { data } = await axiosClassic<IProduct>({
+		const { data } = await axiosClassic<IProduct[]>({
 			url: API_URL.products(`/similar/${id}`),
 			method: 'GET'
 		})

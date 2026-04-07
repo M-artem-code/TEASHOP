@@ -28,22 +28,10 @@ export class StatisticsService {
     ]);
 
     return [
-      {
-        name: 'Выручка',
-        value: revenue._sum.total || 0,
-      },
-      {
-        name: 'Товары',
-        value: products,
-      },
-      {
-        name: 'Категории',
-        value: categories,
-      },
-      {
-        name: 'Средний рейтинг',
-        value: rating._avg.rating || 0,
-      },
+      { id: 1, name: 'Выручка', value: revenue._sum.total || 0 },
+      { id: 2, name: 'Товары', value: products },
+      { id: 3, name: 'Категории', value: categories },
+      { id: 4, name: 'Средний рейтинг', value: rating._avg.rating || 0 },
     ];
   }
 

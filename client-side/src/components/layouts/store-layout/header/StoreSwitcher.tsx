@@ -34,7 +34,7 @@ export const StoreSwitch = ({ items }: StoreSwitchProps) => {
 
 	const onStoreSelect = (store: IStore) => {
 		setIsOpen(false)
-		router.push(`/stores/${store.id}`)
+		router.push(`/store/${store.id}`)
 	}
 
 	return (
@@ -47,10 +47,13 @@ export const StoreSwitch = ({ items }: StoreSwitchProps) => {
 					aria-label='Выберите магазин'
 					aria-expanded={isOpen}
 					className='w-50'
+					asChild
 				>
-					<StoreIcon className='mr-2 size-4' />
-					Текущий магазин
-					<ChevronsUpDown className='ml-auto size-4 shrink-0 opacity-50' />
+					<span>
+						<StoreIcon className='mr-2 size-4' />
+						Текущий магазин
+						<ChevronsUpDown className='ml-auto size-4 shrink-0 opacity-50' />
+					</span>
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent>
@@ -74,16 +77,16 @@ export const StoreSwitch = ({ items }: StoreSwitchProps) => {
 						</CommandGroup>
 					</CommandList>
 					<CommandSeparator />
-					<CommandList  className='mt-3'>
+					<CommandList className='mt-3'>
 						<CommandGroup>
-                            <CreateStoreModule>
-                                <CommandItem >
-                                    <Plus className='mr-2 size-4' />
-                                    <div className='line-clamp-1'>
-                                        Создать магазин
-                                    </div>
-                                </CommandItem>
-                            </CreateStoreModule>
+							<CreateStoreModule>
+								<CommandItem>
+									<Plus className='mr-2 size-4' />
+									<div className='line-clamp-1'>
+										Создать магазин
+									</div>
+								</CommandItem>
+							</CreateStoreModule>
 						</CommandGroup>
 					</CommandList>
 				</Command>

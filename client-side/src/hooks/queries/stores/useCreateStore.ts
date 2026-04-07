@@ -22,7 +22,7 @@ export function useCreateStore() {
 			router.push(STORE_URL.home(store.id))
 		},
 		onError() {
-			toast.error('Error creating store')
+			toast.error('Ошибка создания магазина')
 		}
 	})
 

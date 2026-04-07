@@ -17,7 +17,7 @@ class CategoryService {
 	}
 
 	async getById(id: string) {
-		const { data } = await axiosClassic<ICategory>({
+		const { data } = await axiosWithAuth<ICategory>({
 			url: API_URL.categories(`/by-id/${id}`),
 			method: 'GET'
 		})

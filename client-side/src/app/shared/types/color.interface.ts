@@ -3,7 +3,7 @@ export interface IColor {
 	name: string
 	value: string
 	storeId: string
-	createdAt: Date
+	createdAt: string
 }
 
 export interface IColorInput extends Pick<IColor, 'name' | 'value'> {}
