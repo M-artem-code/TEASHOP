@@ -5,30 +5,30 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 import { STORE_URL } from '@/app/config/url.config'
+import { IColor } from '@/app/shared/types/color.interface'
 
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table/data-table'
 import { DataTableLoading } from '@/components/ui/data-table/data-table-loading'
 import { Heading } from '@/components/ui/heading'
 
-import { useGetProducts } from '@/hooks/queries/products/useGetProducts'
+import { useGetColors } from '@/hooks/queries/colors/useGetColors'
 
-import { formatPrice } from '@/utils/string/format-price'
+import { formatDate } from '@/utils/date/format-date'
 
-import { IProductColumn, columns } from './product-columns'
+import { columns } from './color-columns'
 
-export function Products() {
+export function Colors() {
 	const params = useParams<{ storeId: string }>()
 
-	const { products, isLoading } = useGetProducts()
+	const { colors, isLoading } = useGetColors()
 
-	const formattedProducts: IProductColumn[] = products
-		? products.map(product => ({
-				id: product.id,
-				title: product.title,
-				price: formatPrice(product.price),
-				category: product.category.title,
-				color: product.color?.value || '',
+	const formattedСolors: IColor[] = colors
+		? colors.map(color => ({
+				id: color.id,
+				createdAt: formatDate(color.createdAt),
+				name: color.name,
+				value: color.value,
 				storeId: params.storeId
 			}))
 		: []
@@ -41,10 +41,10 @@ export function Products() {
 				<div className='space-y-6'>
 					<div className='flex items-center justify-between'>
 						<Heading
-							title={`Товары (${products?.length || 0})`}
-							description='Все товары вашего магазина'
+							title={`Цвета (${colors?.length || 0})`}
+							description='Все Цвета вашего магазина'
 						/>
-						<Link href={STORE_URL.productCreate(params.storeId)}>
+						<Link href={STORE_URL.colorCreate(params.storeId)}>
 							<Button variant='default' className='gap-2'>
 								<Plus className='h-4 w-4' />
 								Создать
@@ -54,8 +54,8 @@ export function Products() {
 					<div>
 						<DataTable
 							columns={columns}
-							data={formattedProducts}
-							filterKey='title'
+							data={formattedСolors}
+							filterKey='name'
 						/>
 					</div>
 				</div>

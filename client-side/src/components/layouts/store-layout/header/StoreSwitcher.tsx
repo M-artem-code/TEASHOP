@@ -47,10 +47,13 @@ export const StoreSwitch = ({ items }: StoreSwitchProps) => {
 					aria-label='Выберите магазин'
 					aria-expanded={isOpen}
 					className='w-50'
+					asChild
 				>
-					<StoreIcon className='mr-2 size-4' />
-					Текущий магазин
-					<ChevronsUpDown className='ml-auto size-4 shrink-0 opacity-50' />
+					<span>
+						<StoreIcon className='mr-2 size-4' />
+						Текущий магазин
+						<ChevronsUpDown className='ml-auto size-4 shrink-0 opacity-50' />
+					</span>
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent>

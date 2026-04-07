@@ -10,7 +10,9 @@ export function Providers({ children }: PropsWithChildren) {
 			new QueryClient({
 				defaultOptions: {
 					queries: {
-						refetchOnWindowFocus: false
+						refetchOnWindowFocus: false,
+						staleTime: 5 * 60 * 1000,
+						gcTime: 10 * 60 * 1000
 					}
 				}
 			}),

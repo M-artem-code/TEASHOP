@@ -9,7 +9,7 @@ interface ReviewDto {
 
 class ReviewService {
 	async getByStoreId(storeId: string) {
-		const { data } = await axiosClassic({
+		const { data } = await axiosWithAuth({
 			url: API_URL.reviews(`/by-storeId/${storeId}`),
 			method: 'GET'
 		})
@@ -20,6 +20,23 @@ class ReviewService {
 		const { data } = await axiosWithAuth({
 			url: API_URL.reviews(`/${productId}/${storeId}`),
 			method: 'POST',
+			data: dto
+		})
+		return data
+	}
+
+	async getById(id: string) {
+		const { data } = await axiosClassic({
+			url: API_URL.reviews(`/${id}`),
+			method: 'GET'
+		})
+		return data
+	}
+
+	async update(id: string, dto: ReviewDto) {
+		const { data } = await axiosWithAuth({
+			url: API_URL.reviews(`/${id}`),
+			method: 'PUT',
 			data: dto
 		})
 		return data

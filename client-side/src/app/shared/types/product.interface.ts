@@ -16,7 +16,7 @@ export interface IProduct {
 }
 
 export interface IProductInput {
-	name: string
+	title: string
 	description: string
 	price: number
 	images: string[]

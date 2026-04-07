@@ -8,7 +8,7 @@ import { MiddleStatistics } from './statistics/middle-statistics/middleStatistic
 
 export function Store() {
 	return (
-		<div className={`${styles.wrapper}, p-6`}>
+		<div className={`${styles.wrapper} p-6`}>
 			<Heading title='Статистика' />
 			<MainStatistics />
 			<MiddleStatistics />

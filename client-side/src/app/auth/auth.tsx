@@ -32,16 +32,16 @@ export function Auth() {
 					height={100}
 				/>
 			</div>
-			<div className={`${styles.right} `}>
-				<Card className={`${styles.card} p-6  `}>
+			<div className={styles.right}>
+				<Card className={`${styles.card} p-6`}>
 					<CardHeader
-						className={`${styles.header} p-5 flex flex-col items-center justify-center py-4 `}
+						className={`${styles.header} flex flex-col items-center justify-center py-4`}
 					>
 						<CardTitle>
 							{isReg ? 'Зарегистрируйтесь' : 'Войдите'}
 						</CardTitle>
 					</CardHeader>
-					<CardContent className={`${styles.content} p-0 `}>
+					<CardContent className={`${styles.content} p-0`}>
 						<form onSubmit={form.handleSubmit(onSubmit)}>
 							<AuthFields
 								form={form}

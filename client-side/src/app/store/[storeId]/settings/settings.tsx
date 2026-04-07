@@ -33,7 +33,7 @@ export function Settings() {
 	return (
 		<div className='space-y-6'>
 			{/* Header */}
-			<div className='flex items-center justify-between mr-30 ml-30 mt-10'>
+			<div className='flex items-center justify-between mx-auto max-w-4xl pt-6'>
 				<div className='space-y-1'>
 					<Heading
 						title='Настройки'

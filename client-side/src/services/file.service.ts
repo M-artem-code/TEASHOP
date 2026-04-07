@@ -6,7 +6,7 @@ interface IFile {
 }
 
 class FileService {
-	async upload(file: IFile, folder?: string) {
+	async upload(file: FormData, folder?: string) {
 		const { data } = await axiosWithAuth<IFile[]>({
 			url: `/files`,
 			method: 'POST',
