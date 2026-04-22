@@ -70,7 +70,7 @@ export function CreateStoreModule({ children }: PropsWithChildren<unknown>) {
 					<div className='flex justify-end'>
 						<Button
 							type='submit'
-							variant='primary'
+							variant='default'
 							disabled={isLoadingCreate}
 						>
 							Создать
