@@ -24,6 +24,20 @@ export class OrderService {
   }
 
   async createOrder(dto: OrderDto, userId: string) {
+    const storeId = dto.items?.[0]?.storeId;
+
+    if (!storeId) {
+      throw new Error('storeId is required to create an order');
+    }
+
+    const hasDifferentStore = dto.items.some(
+      (item) => item.storeId !== storeId,
+    );
+
+    if (hasDifferentStore) {
+      throw new Error('All order items must belong to the same store');
+    }
+
     const orderItem = dto.items.map((item) => ({
       quantity: item.quantity,
       price: item.price,
@@ -42,6 +56,11 @@ export class OrderService {
     const order = await this.prisma.order.create({
       data: {
         total,
+        store: {
+          connect: {
+            id: storeId,
+          },
+        },
         user: {
           connect: {
             id: userId,

@@ -8,7 +8,7 @@ class ProductService {
 		const { data } = await axiosClassic<IProduct[]>({
 			url: API_URL.products(),
 			method: 'GET',
-			params: searchParams ? { searchParams } : undefined
+			params: searchParams ? { searchTerm: searchParams } : undefined
 		})
 
 		return data || []
@@ -33,7 +33,7 @@ class ProductService {
 	}
 
 	async getByCategoryId(categoryId: string) {
-		const { data } = await axiosClassic<IProduct>({
+		const { data } = await axiosClassic<IProduct[]>({
 			url: API_URL.products(`/by-category/${categoryId}`),
 			method: 'GET'
 		})

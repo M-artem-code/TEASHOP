@@ -10,6 +10,8 @@ interface HomeProps {
 }
 
 export function Home({ products }: HomeProps) {
+	console.log(products);
+	
 	return (
 		<>
 			<Hero />

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 	title: 'Шоппинг'
 }
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 async function getProducts() {
 	const data = (await productService.getAll()).slice(0, 6)

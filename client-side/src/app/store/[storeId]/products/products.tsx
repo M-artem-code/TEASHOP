@@ -27,8 +27,8 @@ export function Products() {
 				id: product.id,
 				title: product.title,
 				price: formatPrice(product.price),
-				category: product.category.title,
-				color: product.color?.value || '',
+				category: product.category?.title ?? '—',
+				color: product.color?.value ?? '',
 				storeId: params.storeId
 			}))
 		: []
