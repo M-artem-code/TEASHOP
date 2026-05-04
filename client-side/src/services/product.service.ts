@@ -5,13 +5,29 @@ import { IProduct, IProductInput } from '@/app/shared/types/product.interface'
 
 class ProductService {
 	async getAll(searchParams?: string | null) {
-		const { data } = await axiosClassic<IProduct[]>({
-			url: API_URL.products(),
-			method: 'GET',
-			params: searchParams ? { searchTerm: searchParams } : undefined
-		})
+		try {
+			const { data } = await axiosClassic<IProduct[]>({
+				url: API_URL.products(),
+				method: 'GET',
+				params: searchParams ? { searchTerm: searchParams } : undefined
+			})
 
-		return data || []
+			return data || []
+		} catch (error: any) {
+			const status = error?.response?.status
+			const responseData = error?.response?.data
+			const url = error?.config?.baseURL
+				? `${error.config.baseURL}${error?.config?.url || ''}`
+				: error?.config?.url
+
+			console.error('ProductService.getAll failed', {
+				status,
+				url,
+				params: error?.config?.params,
+				responseData
+			})
+			throw error
+		}
 	}
 
 	async getByStoreId(storeId: string) {

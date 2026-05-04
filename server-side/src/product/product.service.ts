@@ -7,19 +7,24 @@ export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getAll(searchTerm?: string) {
-    if (searchTerm) return this.getSearchTermFilter(searchTerm);
+    try {
+      if (searchTerm) return this.getSearchTermFilter(searchTerm);
 
-    const products = await this.prisma.product.findMany({
-      orderBy: {
-        createdAt: 'desc',
-      },
-      include: {
-        category: true,
-        color: true,
-        reviews: true,
-      },
-    });
-    return products;
+      const products = await this.prisma.product.findMany({
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          category: true,
+          color: true,
+          reviews: true,
+        },
+      });
+      return products;
+    } catch (error) {
+      console.error('ProductService.getAll failed', error);
+      throw error;
+    }
   }
 
   private async getSearchTermFilter(searchTerm: string) {
