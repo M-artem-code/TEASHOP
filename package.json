@@ -1,0 +1,20 @@
+{
+  "name": "teashop",
+  "private": true,
+  "workspaces": [
+    "client-side",
+    "server-side"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c magenta,cyan \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm --workspace server-side run start:dev",
+    "dev:client": "npm --workspace client-side run dev",
+    "build": "npm --workspace server-side run build && npm --workspace client-side run build",
+    "lint": "npm --workspace server-side run lint && npm --workspace client-side run lint",
+    "prisma:migrate": "npm --workspace server-side exec prisma migrate dev",
+    "prisma:seed": "npm --workspace server-side run prisma:seed"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
