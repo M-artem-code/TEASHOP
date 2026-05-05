@@ -35,11 +35,11 @@
 - Node.js (рекомендуется LTS)
 - PostgreSQL
 
-## Скриншот
-
-Помести файл скриншота в `docs/screenshots/` (например `docs/screenshots/app.png`), затем он будет отображаться здесь:
+## Скриншоты
 
 ![TEASHOP screenshot](docs/screenshots/app.png)
+![TEASHOP screenshot](docs/screenshots/product.png)
+![TEASHOP screenshot](docs/screenshots/store.png)
 
 ## Быстрый старт (локально)
 
