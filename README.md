@@ -38,8 +38,8 @@
 ## Скриншоты
 
 ![TEASHOP screenshot](docs/screenshots/app.png)
-![TEASHOP screenshot](docs/screenshots/product.png)
-![TEASHOP screenshot](docs/screenshots/store.png)
+![TEASHOP screenshot](docs/screenshots/app1.png)
+![TEASHOP screenshot](docs/screenshots/app2.png)
 
 ## Быстрый старт (локально)
 
