@@ -4,15 +4,42 @@
 
 ## Стек
 
-- Client: Next.js 16, React 19
-- Server: NestJS 11
-- DB: PostgreSQL
-- ORM: Prisma
+- Client:
+  - Next.js 16 (App Router)
+  - React 19
+  - TypeScript
+  - TailwindCSS
+  - shadcn/ui + Radix UI
+  - TanStack Query (React Query)
+  - Zustand
+  - React Hook Form
+  - Axios
+  - Chart.js / Recharts
+- Server:
+  - NestJS 11
+  - TypeScript
+  - JWT Auth (`@nestjs/jwt`)
+  - Passport (Google OAuth)
+  - Cookie-based auth (`cookie-parser`)
+  - Validation (`class-validator`, `class-transformer`)
+  - File uploads (Multer)
+  - Swagger (`@nestjs/swagger`)
+- DB:
+  - PostgreSQL
+  - Prisma ORM (+ `@prisma/adapter-pg`)
+- Integrations:
+  - YooKassa (`@a2seven/yoo-checkout`)
 
 ## Требования
 
 - Node.js (рекомендуется LTS)
 - PostgreSQL
+
+## Скриншот
+
+Помести файл скриншота в `docs/screenshots/` (например `docs/screenshots/app.png`), затем он будет отображаться здесь:
+
+![TEASHOP screenshot](docs/screenshots/app.png)
 
 ## Быстрый старт (локально)
 
