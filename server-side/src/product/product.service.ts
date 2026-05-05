@@ -6,6 +6,59 @@ import { ProductDto } from './dto/product.dto';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getPage(params: {
+    take?: number;
+    cursor?: string;
+    searchTerm?: string;
+  }) {
+    const take = Math.min(Math.max(params.take ?? 24, 1), 60);
+    const cursor = params.cursor ?? undefined;
+    const searchTerm = params.searchTerm?.trim() || undefined;
+
+    const where = searchTerm
+      ? {
+          OR: [
+            {
+              title: {
+                contains: searchTerm,
+                mode: 'insensitive' as const,
+              },
+            },
+            {
+              description: {
+                contains: searchTerm,
+                mode: 'insensitive' as const,
+              },
+            },
+          ],
+        }
+      : undefined;
+
+    const items = await this.prisma.product.findMany({
+      where,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: take + 1,
+      skip: cursor ? 1 : 0,
+      cursor: cursor ? { id: cursor } : undefined,
+      include: {
+        category: true,
+        color: true,
+        store: true,
+        reviews: true,
+      },
+    });
+
+    const hasNext = items.length > take;
+    const sliced = hasNext ? items.slice(0, take) : items;
+
+    return {
+      items: sliced,
+      nextCursor: hasNext ? (sliced[sliced.length - 1]?.id ?? null) : null,
+    };
+  }
+
   async getAll(searchTerm?: string) {
     try {
       if (searchTerm) return this.getSearchTermFilter(searchTerm);
@@ -17,6 +70,7 @@ export class ProductService {
         include: {
           category: true,
           color: true,
+          store: true,
           reviews: true,
         },
       });
@@ -72,6 +126,7 @@ export class ProductService {
       include: {
         category: true,
         color: true,
+        store: true,
         reviews: {
           include: {
             user: true,

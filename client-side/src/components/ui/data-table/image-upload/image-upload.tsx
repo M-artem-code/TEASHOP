@@ -32,7 +32,7 @@ export default function ImageUpload({
 							key={url}
 							className='group relative flex-shrink-0 overflow-hidden rounded-lg border bg-muted/50'
 						>
-							<Image
+							<img
 								src={url}
 								alt='Uploaded image'
 								width={150}

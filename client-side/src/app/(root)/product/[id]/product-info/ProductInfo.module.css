@@ -1,0 +1,67 @@
+.product_info {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.title {
+	font-size: 28px;
+	line-height: 1.2;
+	font-weight: 800;
+	color: #111827;
+}
+
+.price {
+	font-size: 18px;
+	font-weight: 600;
+	color: #111827;
+}
+
+.description {
+	font-size: 13px;
+	line-height: 1.65;
+	color: #6b7280;
+}
+
+.label {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 13px;
+	color: #111827;
+}
+
+.label h3 {
+	font-size: 13px;
+	font-weight: 700;
+	color: #111827;
+	margin: 0;
+}
+
+.color {
+	width: 14px;
+	height: 14px;
+	border-radius: 999px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.actions {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+}
+
+.actions :global(button) {
+	height: 44px;
+}
+
+.actions :global(button:first-child) {
+	flex: 1;
+}
+
+.product_info :global(hr) {
+	border: 0;
+	height: 1px;
+	background: rgba(0, 0, 0, 0.08);
+	margin: 6px 0;
+}

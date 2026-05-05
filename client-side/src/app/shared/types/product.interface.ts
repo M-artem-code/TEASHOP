@@ -1,7 +1,7 @@
-import { ICategory } from "./category.interface"
-import { IColor } from "./color.interface"
-import { IReview } from "./review.interface"
-import { IStore } from "./store.inteface"
+import { ICategory } from './category.interface'
+import { IColor } from './color.interface'
+import { IReview } from './review.interface'
+import { IStore } from './store.inteface'
 
 export interface IProduct {
 	id: string
@@ -10,7 +10,7 @@ export interface IProduct {
 	price: number
 	images: string[]
 	category: ICategory
-	rewiews: IReview[]
+	reviews: IReview[]
 	color: IColor
 	store: IStore
 }

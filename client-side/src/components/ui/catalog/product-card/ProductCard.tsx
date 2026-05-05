@@ -5,11 +5,19 @@ import { IProduct } from '@/app/shared/types/product.interface'
 
 interface ProductCardProps {
 	product: IProduct
+	variant?: 'carousel' | 'grid'
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({
+	product,
+	variant = 'carousel'
+}: ProductCardProps) {
 	const image = product.images?.[0]
 	const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
+	const rootClassName =
+		variant === 'grid'
+			? 'group flex w-full flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-shadow hover:shadow-md'
+			: 'group flex w-64 shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-shadow hover:shadow-md'
 
 	const src = (() => {
 		if (!image) return ''
@@ -20,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
 	})()
 
 	return (
-		<div className='group flex w-64 shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-white shadow-sm transition-shadow hover:shadow-md'>
+		<div className={rootClassName}>
 			<Link
 				href={PUBLIC_URL.product(product.id)}
 				className='block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'

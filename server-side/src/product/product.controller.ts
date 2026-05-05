@@ -17,7 +17,21 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  async getAll(@Query('searchTerm') searchTerm?: string) {
+  async getAll(
+    @Query('searchTerm') searchTerm?: string,
+    @Query('take') take?: string,
+    @Query('cursor') cursor?: string,
+  ) {
+    if (take !== undefined) {
+      const parsedTake = Number(take);
+
+      return this.productService.getPage({
+        take: Number.isFinite(parsedTake) ? parsedTake : undefined,
+        cursor,
+        searchTerm,
+      });
+    }
+
     return this.productService.getAll(searchTerm);
   }
 

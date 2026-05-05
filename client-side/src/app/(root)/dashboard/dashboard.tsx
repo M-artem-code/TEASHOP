@@ -9,6 +9,7 @@ import { DASHBOARD_URL } from '@/app/config/url.config'
 import { EnumOrderStatus } from '@/app/shared/types/order.interface'
 
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DataTable } from '@/components/ui/data-table/data-table'
 import { DataTableLoading } from '@/components/ui/data-table/data-table-loading'
 import { Heading } from '@/components/ui/heading'
@@ -43,6 +44,13 @@ export function Dashboard() {
 	if (isLoading) return <DataTableLoading />
 	if (!user) return null
 
+	const ordersCount = user.orders.length
+	const payedCount = user.orders.filter(
+		o => o.status === EnumOrderStatus.PAYED
+	).length
+	const pendingCount = ordersCount - payedCount
+	const totalSum = user.orders.reduce((sum, o) => sum + o.total, 0)
+
 	const formattedOrders: IOrderColumn[] = user.orders.map(order => ({
 		createdAt: formatDate(order.createdAt),
 		status:
@@ -71,6 +79,57 @@ export function Dashboard() {
 				</div>
 			</div>
 
+			<div className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4'>
+				<Card size='sm' className='ring-1 ring-foreground/10'>
+					<CardHeader className='pb-2'>
+						<CardTitle className='text-sm text-muted-foreground'>
+							Всего заказов
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div className='text-2xl font-semibold tabular-nums'>
+							{ordersCount}
+						</div>
+					</CardContent>
+				</Card>
+				<Card size='sm' className='ring-1 ring-foreground/10'>
+					<CardHeader className='pb-2'>
+						<CardTitle className='text-sm text-muted-foreground'>
+							Оплачено
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div className='text-2xl font-semibold tabular-nums'>
+							{payedCount}
+						</div>
+					</CardContent>
+				</Card>
+				<Card size='sm' className='ring-1 ring-foreground/10'>
+					<CardHeader className='pb-2'>
+						<CardTitle className='text-sm text-muted-foreground'>
+							В ожидании
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div className='text-2xl font-semibold tabular-nums'>
+							{pendingCount}
+						</div>
+					</CardContent>
+				</Card>
+				<Card size='sm' className='ring-1 ring-foreground/10'>
+					<CardHeader className='pb-2'>
+						<CardTitle className='text-sm text-muted-foreground'>
+							Сумма
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div className='text-2xl font-semibold tabular-nums'>
+							{formatPrice(totalSum)}
+						</div>
+					</CardContent>
+				</Card>
+			</div>
+
 			<div>
 				<Heading
 					title={`Заказы (${user.orders.length})`}
@@ -78,7 +137,26 @@ export function Dashboard() {
 					size='md'
 				/>
 			</div>
-			<DataTable columns={orderColumns} data={formattedOrders} />
+			<Card className='ring-1 ring-foreground/10'>
+				<CardContent>
+					{formattedOrders.length === 0 ? (
+						<div className='py-10 text-center'>
+							<div className='text-base font-medium'>
+								Заказов пока нет
+							</div>
+							<div className='text-sm text-muted-foreground'>
+								Добавь товары в корзину и оформи заказ — он
+								появится здесь.
+							</div>
+						</div>
+					) : (
+						<DataTable
+							columns={orderColumns}
+							data={formattedOrders}
+						/>
+					)}
+				</CardContent>
+			</Card>
 		</div>
 	)
 }

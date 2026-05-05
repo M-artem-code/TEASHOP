@@ -8,12 +8,11 @@ import {
 
 interface OrderDto {
 	status?: EnumOrderStatus
+	delivery: string
 	items: {
 		quantity: number
-		price: number
 		productId: string
-		storeId: string
-	}
+	}[]
 }
 class OrderService {
 	async checkout(data: OrderDto) {

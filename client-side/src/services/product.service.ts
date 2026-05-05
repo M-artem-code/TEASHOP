@@ -3,6 +3,11 @@ import { axiosClassic, axiosWithAuth } from '@/api/api.interceptors'
 import { API_URL } from '@/app/config/api.config'
 import { IProduct, IProductInput } from '@/app/shared/types/product.interface'
 
+interface IProductPageResponse {
+	items: IProduct[]
+	nextCursor: string | null
+}
+
 class ProductService {
 	async getAll(searchParams?: string | null) {
 		try {
@@ -28,6 +33,24 @@ class ProductService {
 			})
 			throw error
 		}
+	}
+
+	async getPage(params: {
+		searchTerm?: string
+		cursor?: string | null
+		take?: number
+	}) {
+		const { data } = await axiosClassic<IProductPageResponse>({
+			url: API_URL.products(),
+			method: 'GET',
+			params: {
+				searchTerm: params.searchTerm,
+				take: params.take,
+				cursor: params.cursor ?? undefined
+			}
+		})
+
+		return data
 	}
 
 	async getByStoreId(storeId: string) {

@@ -1,6 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
 export interface IOrderColumn {
@@ -44,9 +45,11 @@ export const orderColumns: ColumnDef<IOrderColumn>[] = [
 				</Button>
 			)
 		},
-		cell: ({ row }) => (
-			<span className='text-sm'>{row.getValue('status')}</span>
-		)
+		cell: ({ row }) => {
+			const status = String(row.getValue('status'))
+			const variant = status === 'Оплачен' ? 'success' : 'warning'
+			return <Badge variant={variant}>{status}</Badge>
+		}
 	},
 	{
 		accessorKey: 'total',
@@ -64,7 +67,7 @@ export const orderColumns: ColumnDef<IOrderColumn>[] = [
 			)
 		},
 		cell: ({ row }) => (
-			<div className='text-right font-medium'>
+			<div>
 				{row.getValue('total')}
 			</div>
 		)

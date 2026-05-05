@@ -6,6 +6,7 @@ export const PUBLIC_URL = {
 	home: () => PUBLIC_URL.root('/'),
 	auth: () => PUBLIC_URL.root(`/auth`),
 	explorer: (query = '') => PUBLIC_URL.root(`/explorer${query}`),
+	checkout: () => PUBLIC_URL.root('/checkout'),
 
 	product: (id: string) => PUBLIC_URL.root(`/product/${id}`),
 	category: (id: string) => PUBLIC_URL.root(`/category/${id}`)
@@ -15,7 +16,7 @@ export const DASHBOARD_URL = {
 	root: (url = '') => `/dashboard${url ? url : ''}`,
 
 	home: () => DASHBOARD_URL.root('/'),
-	favorites: () => DASHBOARD_URL.root(`/favorites`),
+	favorites: () => DASHBOARD_URL.root(`/favorites`)
 }
 
 export const STORE_URL = {

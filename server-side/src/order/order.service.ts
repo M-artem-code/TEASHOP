@@ -24,38 +24,66 @@ export class OrderService {
   }
 
   async createOrder(dto: OrderDto, userId: string) {
-    const storeId = dto.items?.[0]?.storeId;
-
-    if (!storeId) {
-      throw new Error('storeId is required to create an order');
+    if (!dto.items || dto.items.length === 0) {
+      throw new Error('Order items are required');
     }
 
-    const hasDifferentStore = dto.items.some(
-      (item) => item.storeId !== storeId,
-    );
+    const productIds = dto.items.map((i) => i.productId);
+    const products = await this.prisma.product.findMany({
+      where: {
+        id: {
+          in: productIds,
+        },
+      },
+      select: {
+        id: true,
+        price: true,
+        storeId: true,
+      },
+    });
 
+    if (products.length !== productIds.length) {
+      throw new Error('Some products were not found');
+    }
+
+    const storeId = products[0]?.storeId;
+    if (!storeId) {
+      throw new Error('storeId is missing for product');
+    }
+
+    const hasDifferentStore = products.some((p) => p.storeId !== storeId);
     if (hasDifferentStore) {
       throw new Error('All order items must belong to the same store');
     }
 
-    const orderItem = dto.items.map((item) => ({
-      quantity: item.quantity,
-      price: item.price,
-      product: {
-        connect: {
-          id: item.productId,
-        },
-      },
-    }));
+    const productById = new Map(products.map((p) => [p.id, p]));
 
-    const total = dto.items.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0,
-    );
+    const orderItem = dto.items.map((item) => {
+      const product = productById.get(item.productId);
+      if (!product) {
+        throw new Error('Product not found: ' + item.productId);
+      }
+      return {
+        quantity: item.quantity,
+        price: product.price,
+        product: {
+          connect: {
+            id: item.productId,
+          },
+        },
+      };
+    });
+
+    const total = dto.items.reduce((sum, item) => {
+      const product = productById.get(item.productId);
+      if (!product) return sum;
+      return sum + product.price * item.quantity;
+    }, 0);
 
     const order = await this.prisma.order.create({
       data: {
         total,
+        delivery: dto.delivery,
         store: {
           connect: {
             id: storeId,
@@ -82,7 +110,14 @@ export class OrderService {
       },
       confirmation: {
         type: 'redirect',
-        return_url: 'http://localhost:3000/thanks',
+        return_url: (() => {
+          const clientUrl = this.configService
+            .get<string>('CLIENT_URL')
+            ?.replace(/\/$/, '');
+          return clientUrl
+            ? `${clientUrl}/thanks`
+            : 'http://localhost:3000/thanks';
+        })(),
       },
       description: 'Order #' + order.id,
     });

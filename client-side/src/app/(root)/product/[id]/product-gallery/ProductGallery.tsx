@@ -16,49 +16,57 @@ export function ProductGallery({ product }: ProductGalleryProps) {
 
 	const images = useMemo(() => {
 		const list = product.images || []
-		return list.map(image => {
-			if (!image) return ''
-			if (image.startsWith('http://') || image.startsWith('https://'))
-				return image
-			if (!baseUrl) return image
-			return `${baseUrl}${image}`
-		})
+		return list
+			.map(image => {
+				if (!image) return ''
+				if (image.startsWith('http://') || image.startsWith('https://'))
+					return image
+				if (!baseUrl) return image
+				if (image.startsWith('/')) return `${baseUrl}${image}`
+				return `${baseUrl}/${image}`
+			})
+			.filter(Boolean)
 	}, [baseUrl, product.images])
 
-	const currentImage = images[currentIndex] || images[0]
+	const safeIndex = Math.min(currentIndex, Math.max(images.length - 1, 0))
+	const currentImage = images[safeIndex]
+
+	if (!currentImage) {
+		return (
+			<div className={styles.wrapper}>
+				<div className={styles.mainPlaceholder}>Нет изображения</div>
+			</div>
+		)
+	}
 
 	return (
 		<div className={styles.wrapper}>
-			{currentImage ? (
+			<div className={styles.mainFrame}>
 				<img
 					src={currentImage}
 					alt={product.title}
-					className={styles.main}
+					className={styles.mainImage}
 				/>
-			) : (
-				<div className={styles.mainPlaceholder}>Нет изображения</div>
-			)}
-
-			{images.length > 1 && (
-				<div className={styles.gallery}>
-					{images.map((image, index) => (
-						<button
-							type='button'
-							key={`${image}-${index}`}
-							onClick={() => setCurrentIndex(index)}
-							className={`${styles.item} ${
-								index === currentIndex ? styles.itemActive : ''
-							}`}
-						>
-							<img
-								src={image}
-								alt={product.title}
-								className={styles.thumb}
-							/>
-						</button>
-					))}
-				</div>
-			)}
+			</div>
+			<div className={styles.gallery}>
+				{images.map((image, index) => (
+					<button
+						key={index}
+						onClick={() => setCurrentIndex(index)}
+						className={`${styles.item} ${
+							index === safeIndex ? styles.itemActive : ''
+						}`}
+					>
+						<img
+							src={image}
+							alt={product.title}
+							width={100}
+							height={100}
+							className={styles.thumb}
+						/>
+					</button>
+				))}
+			</div>
 		</div>
 	)
 }

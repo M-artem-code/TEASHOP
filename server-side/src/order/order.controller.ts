@@ -17,14 +17,24 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Auth()
-  @UsePipes(new ValidationPipe())
+  @UsePipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+    }),
+  )
   @HttpCode(200)
   @Post('place')
   async checkout(@Body() dto: OrderDto, @CurrentUser('id') userId: string) {
     return this.orderService.createOrder(dto, userId);
   }
 
-  @UsePipes(new ValidationPipe())
+  @UsePipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+    }),
+  )
   @HttpCode(200)
   @Post('status')
   async updateStatus(@Body() dto: PaymentStatusDto) {

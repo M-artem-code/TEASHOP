@@ -134,6 +134,8 @@ model Order {
 
   status EnumOrderStatus @default(PENDING)
 
+  delivery String @default("")
+
   items OrderItem[]
   total Int
 
