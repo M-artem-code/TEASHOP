@@ -1,4 +1,4 @@
-import { IUser } from "./user.interface"
+import { IUser } from './user.interface'
 
 export interface IReview {
 	id: string
@@ -8,4 +8,4 @@ export interface IReview {
 	user: IUser
 }
 
-export interface IReviewInput extends Pick<IReview, 'text' | 'rating'> {}
+export type IReviewInput = Pick<IReview, 'text' | 'rating'>

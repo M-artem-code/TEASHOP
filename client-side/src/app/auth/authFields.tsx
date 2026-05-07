@@ -3,7 +3,7 @@ import { UseFormReturn } from 'react-hook-form'
 import { IAuthForm } from '../shared/types/auth.interface'
 
 interface AuthFieldsProps {
-	form: UseFormReturn<IAuthForm, any, IAuthForm>
+	form: UseFormReturn<IAuthForm>
 	isPending: boolean
 	isReg: boolean
 }

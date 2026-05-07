@@ -6,4 +6,4 @@ export interface ICategory {
 	createdAt: Date
 }
 
-export interface ICategoryInput extends Pick<ICategory, 'title' | 'description'> {}
+export type ICategoryInput = Pick<ICategory, 'title' | 'description'>

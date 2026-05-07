@@ -82,14 +82,18 @@ export default function CheckoutPage() {
 
 			clearStore(selectedStoreId)
 			window.location.href = confirmationUrl
-		} catch (e: any) {
+		} catch (e: unknown) {
+			const err = e as {
+				response?: { data?: { message?: unknown; error?: unknown } }
+				message?: unknown
+			}
 			const message =
-				e?.response?.data?.message ||
-				e?.response?.data?.error ||
-				e?.message ||
+				err?.response?.data?.message ||
+				err?.response?.data?.error ||
+				err?.message ||
 				'Не удалось создать оплату'
-			 
-			console.error('Checkout error:', e?.response?.data || e)
+
+			console.error('Checkout error:', err?.response?.data || err)
 			toast.error(String(message))
 		} finally {
 			setIsSubmitting(false)

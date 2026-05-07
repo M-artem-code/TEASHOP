@@ -18,17 +18,21 @@ class ProductService {
 			})
 
 			return data || []
-		} catch (error: any) {
-			const status = error?.response?.status
-			const responseData = error?.response?.data
-			const url = error?.config?.baseURL
-				? `${error.config.baseURL}${error?.config?.url || ''}`
-				: error?.config?.url
+		} catch (error: unknown) {
+			const err = error as {
+				response?: { status?: number; data?: unknown }
+				config?: { baseURL?: string; url?: string; params?: unknown }
+			}
+			const status = err?.response?.status
+			const responseData = err?.response?.data
+			const url = err?.config?.baseURL
+				? `${err.config.baseURL}${err?.config?.url || ''}`
+				: err?.config?.url
 
 			console.error('ProductService.getAll failed', {
 				status,
 				url,
-				params: error?.config?.params,
+				params: err?.config?.params,
 				responseData
 			})
 			throw error

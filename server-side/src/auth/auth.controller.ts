@@ -16,8 +16,15 @@ import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import type { Response } from 'express';
 import type { Request } from 'express';
-import { Auth } from './decorators/auth-decorator';
 import { AuthGuard } from '@nestjs/passport';
+
+type OAuthRequest = Request & {
+  user: {
+    email: string;
+    name: string;
+    picture: string;
+  };
+};
 
 @Controller('auth')
 export class AuthController {
@@ -48,9 +55,9 @@ export class AuthController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const refreshToken = req.cookies['refreshToken'];
+    const refreshToken: unknown = req.cookies['refreshToken'];
 
-    if (!refreshToken) {
+    if (typeof refreshToken !== 'string' || !refreshToken) {
       throw new UnauthorizedException('No refresh token');
     }
 
@@ -68,7 +75,7 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
   @Post('logout')
-  async logout(@Res({ passthrough: true }) res: Response) {
+  logout(@Res({ passthrough: true }) res: Response) {
     this.authService.removeRefreshTokenFromResponse(res);
 
     return { message: 'Logout success' };
@@ -76,17 +83,17 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async googleAuth(@Req() req: Request) {}
+  googleAuth() {}
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   async googleAuthCallback(
-    @Req() req: any,
+    @Req() req: OAuthRequest,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { email, name, picture } = req.user;
 
-    const { user, accessToken } = await this.authService.validateOAuthLogin(
+    const { accessToken } = await this.authService.validateOAuthLogin(
       email,
       name,
       picture,
@@ -101,12 +108,12 @@ export class AuthController {
   @Get('yandex/callback')
   @UseGuards(AuthGuard('yandex'))
   async yandexAuthCallback(
-    @Req() req: any,
+    @Req() req: OAuthRequest,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { email, name, picture } = req.user;
 
-    const { user, accessToken } = await this.authService.validateOAuthLogin(
+    const { accessToken } = await this.authService.validateOAuthLogin(
       email,
       name,
       picture,
@@ -120,5 +127,5 @@ export class AuthController {
 
   @Get('yandex')
   @UseGuards(AuthGuard('yandex'))
-  async yandexAuth(@Req() req: Request) {}
+  yandexAuth() {}
 }

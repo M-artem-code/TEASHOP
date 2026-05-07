@@ -2,12 +2,16 @@ export const getContentType = () => ({
 	'Content-type': 'application/json'
 })
 
-export const errorCatch = (error: any): string => {
-	const message = error?.response?.data?.message
+export const errorCatch = (error: unknown): string => {
+	const err = error as {
+		response?: { data?: { message?: unknown } }
+		message?: unknown
+	}
+	const message = err?.response?.data?.message
 
 	return message
-		? typeof error.response.data.message === 'object'
+		? typeof err.response?.data?.message === 'object'
 			? message[0]
 			: message
-		: error.message
+		: (err?.message as string)
 }
