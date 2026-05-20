@@ -14,6 +14,11 @@ import {
 	SheetTrigger
 } from '@/components/ui/sheet'
 
+import {
+	canIncrementCartQuantity,
+	getDecrementedCartQuantity,
+	getIncrementedCartQuantity
+} from '@/store/cart-quantity'
 import { getCartTotal, useCartStore } from '@/store/cart.store'
 
 export function HeaderCart() {
@@ -68,12 +73,22 @@ export function HeaderCart() {
 									<Button
 										variant='ghost'
 										size='icon-sm'
-										onClick={() =>
-											setQuantity(
-												item.id,
-												Math.max(1, item.quantity - 1)
-											)
+										aria-label={
+											item.quantity <= 1
+												? 'Убрать из корзины'
+												: 'Уменьшить количество'
 										}
+										onClick={() => {
+											const next =
+												getDecrementedCartQuantity(
+													item.quantity
+												)
+											if (next === 'remove') {
+												removeItem(item.id)
+												return
+											}
+											setQuantity(item.id, next)
+										}}
 									>
 										-
 									</Button>
@@ -83,10 +98,18 @@ export function HeaderCart() {
 									<Button
 										variant='ghost'
 										size='icon-sm'
+										aria-label='Увеличить количество'
+										disabled={
+											!canIncrementCartQuantity(
+												item.quantity
+											)
+										}
 										onClick={() =>
 											setQuantity(
 												item.id,
-												item.quantity + 1
+												getIncrementedCartQuantity(
+													item.quantity
+												)
 											)
 										}
 									>
